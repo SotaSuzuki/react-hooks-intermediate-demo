@@ -1,0 +1,17 @@
+{
+  "css.validate": false,
+  "scss.validate": false,
+  "less.validate": false,
+  "stylelint.autoFixOnSave": true,
+  "prettier.requireConfig": true,
+  "eslint.validate": [
+    "vue",
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+}

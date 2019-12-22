@@ -1,0 +1,67 @@
+{
+  "name": "react-hooks-intermediate-demo",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@primer/css": "^14.1.0",
+    "@reach/router": "^1.2.1",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "babel-eslint": "^10.0.3",
+    "node-sass": "^4.13.0",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-scripts": "3.3.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.7.0",
+    "eslint-config-react-app": "^5.1.0",
+    "eslint-plugin-flowtype": "^4.5.2",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.17.0",
+    "eslint-plugin-react-hooks": "^2.3.0",
+    "husky": "^3.1.0",
+    "lint-staged": "^9.5.0",
+    "prettier": "^1.19.1",
+    "react-app-rewired": "^2.1.5",
+    "stylelint": "^12.0.0",
+    "stylelint-config-recommended-scss": "^4.1.0",
+    "stylelint-config-standard": "^19.0.0",
+    "stylelint-scss": "^3.13.0",
+    "stylelint-webpack-plugin": "^1.1.2"
+  },
+  "scripts": {
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
+    "eject": "react-app-rewired eject",
+    "lint": "eslint src --ext .js --ext .jsx",
+    "lint:fix": "eslint src --ext .js --ext .jsx --fix ",
+    "lint:css": "stylelint src/**/*.scss",
+    "lint:css:fix": "stylelint --fix src/**/*.scss"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "prettier": {
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "es5"
+  }
+}
