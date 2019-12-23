@@ -1,85 +1,112 @@
-import React, { useState } from 'react';
-import { Link } from '@reach/router';
-import '@primer/css/header/index.scss';
-import '@primer/css/loaders/index.scss';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import { Appbar } from '../components';
 
 function Demo() {
   return (
     <>
-      <HeaderBar />
+      <Appbar />
       <Main />
     </>
   );
 }
 
 function Main() {
+  const [url, setUrl] = useState('https://jsonplaceholder.typicode.com/posts');
+  const [result, setResult] = useState({});
   const [fetching, setFetching] = useState(false);
-  const handleClickFetchButton = evt => {
-    evt.preventDefault();
-    setFetching(true);
-    setTimeout(() => {
-      setFetching(false);
-    }, 2000);
-  };
+  const [count, setCount] = useState(0);
+
+  const getData = async url => (await window.fetch(url)).json();
+
+  const handleClickFetchButton = useCallback(
+    async evt => {
+      evt.preventDefault();
+      setFetching(true);
+      try {
+        const data = await getData(url);
+        setResult({ data });
+      } catch (err) {
+      } finally {
+        setFetching(false);
+      }
+    },
+    [url]
+  );
+
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        const data = await getData(url);
+        setResult({ data });
+      } catch (err) {
+      } finally {
+        setFetching(false);
+      }
+    };
+    fetch();
+  }, [url]);
+
+  const prettyData = useMemo(() => JSON.stringify(result, null, 2), [result]);
 
   return (
-    <main style={{ maxWidth: 800, margin: '0 auto' }}>
-      <button
-        className="btn mt-3"
-        disabled={fetching}
-        onClick={handleClickFetchButton}
-      >
-        {fetching ? (
-          <>
-            <span>Fetching</span>
-            <span className="AnimatedEllipsis"></span>
-          </>
-        ) : (
-          <span>Fetch Data</span>
-        )}
-      </button>
+    <main className="pt-3 container-md">
+      <div className="d-flex">
+        <div>
+          <div className="mb-4">
+            <h3 className="mb-2">Counter</h3>
+            <Counter count={count} setCount={setCount} />
+          </div>
+
+          <h3 className="mb-2">API Request</h3>
+          <label className="d-block mb-2">
+            <textarea
+              className="form-control input-monospace"
+              style={{ width: 240 }}
+              onChange={evt => setUrl(evt.target.value)}
+              rows="2"
+              value={url}
+            />
+          </label>
+
+          <div className="d-flex">
+            <button
+              className="btn"
+              disabled={fetching}
+              onClick={handleClickFetchButton}
+            >
+              {fetching ? (
+                <>
+                  <span>Fetching</span>
+                  <span className="AnimatedEllipsis"></span>
+                </>
+              ) : (
+                <span>Fetch Data</span>
+              )}
+            </button>
+          </div>
+        </div>
+
+        <div className="ml-6 markdown-body flex-auto">
+          <code className="d-block" style={{ whiteSpace: 'pre-wrap' }}>
+            {prettyData}
+          </code>
+        </div>
+      </div>
     </main>
   );
 }
 
-function HeaderBar() {
+function Counter({ count, setCount }) {
   return (
-    <div className="Header">
-      <div
-        className="d-flex flex-justify-between"
-        style={{ maxWidth: 800, flex: '1 1 auto', margin: '0 auto' }}
-      >
-        <div className="Header-item">
-          <div className="f4 d-flex flex-items-center">
-            <svg
-              height="32"
-              className="octicon octicon-mark-github mr-2"
-              viewBox="0 0 16 16"
-              version="1.1"
-              width="32"
-              aria-hidden="true"
-            >
-              <path
-                fillRule="evenodd"
-                d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"
-              ></path>
-            </svg>
-            <div>
-              <div className="f4">React Hooks API Demo</div>
-              <div className="f6 text-green">intermediate</div>
-            </div>
-          </div>
-        </div>
-
-        <div className="Header-item ">
-          <nav>
-            <Link className="Header-link" to="/">
-              Back
-            </Link>
-          </nav>
-        </div>
-      </div>
-    </div>
+    <>
+      <button className="btn" onClick={() => setCount(count - 1)}>
+        -
+      </button>
+      <button className="btn ml-2" onClick={() => setCount(count + 1)}>
+        +
+      </button>
+      <span className="ml-2">{count}</span>
+    </>
   );
 }
 

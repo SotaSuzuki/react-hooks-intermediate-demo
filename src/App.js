@@ -2,13 +2,15 @@ import React from 'react';
 import logo from './logo.svg';
 import { Link, Router } from '@reach/router';
 import './App.scss';
-import Demo from './Views/Demo';
+import Demo from './views/Demo';
+import { Styles } from './components';
 
 function App() {
   return (
     <>
+      <Styles />
       <Router>
-        <Home path="/" />
+        <Home default path="/" />
         <Demo path="/demo" />
       </Router>
     </>
